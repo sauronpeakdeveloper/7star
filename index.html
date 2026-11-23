@@ -114,7 +114,7 @@ function startGame(){gameOn=true;over=false;picEl.style.transition='opacity 2s e
 function hurt(hx,hy){if(shield){shield=false;addFT(hx,hy,'Бамбай хамгаалав!','#ff8fb8');burst(hx,hy,16,['#ff8fb8','#fff']);upd();return}
  lives--;combo=0;flash.style.opacity=1;setTimeout(function(){flash.style.opacity=0},120);try{navigator.vibrate&&navigator.vibrate(90)}catch(e){}burst(hx,hy,10);upd();if(lives<=0)end()}
 function spawn(sc){var t=Math.random(),p=Math.min(.42,.14+level*.025),k;
- if(t<p)k='m';else if(t<(p+=.06))k='p';else if(t<(p+=.05))k='w';else if(t<(p+=.07))k='h';else k='s';
+ if(t<p)k='m';else if(t<(p+=.06))k='p';else if(t<(p+=.05))k='w';else k='s';
  var g={k:k,x:30+Math.random()*(W-60),y:-30,vy:(2.5+Math.random()*1.5+Math.min(4,(level-1)*.4))*sc,vx:k==='m'?(Math.random()-.5)*1.5:0,r:(k==='m'?15:11)*sc+Math.random()*6*sc,rot:Math.random()*6,c:PAL[(Math.random()*PAL.length)|0]};
  if(k==='p'){g.pt=['g','s','z'][(Math.random()*3)|0];g.r=14*sc}
  gs.push(g)}
@@ -131,7 +131,7 @@ gameStep=function(){
  if(boss){var bs=boss;bs.t+=dd;bs.y+=bs.vy*dd;bs.x+=bs.vx*dd;if(bs.x<bs.r||bs.x>W-bs.r)bs.vx*=-1;
   var nn=Math.floor(bs.t/90);if(bs.y>60&&nn!==bs.n){bs.n=nn;gs.push({k:'m',x:bs.x,y:bs.y+bs.r,vy:3*sc,vx:(Math.random()-.5)*2,r:14*sc,rot:0,c:'#fff'})}
   for(var i=bl.length-1;i>=0;i--){var q=bl[i],ex=q.x-bs.x,ey=q.y-bs.y;if(ex*ex+ey*ey<(bs.r+6)*(bs.r+6)){bl.splice(i,1);bs.hp--;burst(q.x,q.y,3,['#fff','#ffb27a'])}}
-  if(bs.hp<=0){score+=20;addFT(bs.x,bs.y,'Дарга чулууг ялав! +20','#ffe082');burst(bs.x,bs.y,70,PAL);gs.push({k:'h',x:bs.x,y:bs.y,vy:2*sc,vx:0,r:14*sc,rot:0,c:'#ff6fa8'});wish();boss=null;upd();tip('Дарга чулууг ялав! ★')}
+  if(bs.hp<=0){score+=20;addFT(bs.x,bs.y,'Дарга чулууг ялав! +20','#ffe082');burst(bs.x,bs.y,70,PAL);wish();boss=null;upd();tip('Дарга чулууг ялав! ★')}
   else{var dx0=bs.x-cx,dy0=bs.y-cy;if(dx0*dx0+dy0*dy0<(pr+bs.r*.8)*(pr+bs.r*.8)||bs.y>H*.88){hurt(bs.x,Math.min(bs.y,H-20));boss=null;if(over)return}
    else{x.save();x.shadowColor='#ff7043';x.shadowBlur=26;x.fillStyle='#5d4d68';x.strokeStyle='rgba(255,160,90,.95)';x.lineWidth=3;x.beginPath();x.arc(bs.x,bs.y,bs.r,0,6.28);x.fill();x.stroke();x.shadowBlur=0;x.fillStyle='#3f3349';x.beginPath();x.arc(bs.x-bs.r*.3,bs.y-bs.r*.2,bs.r*.3,0,6.28);x.fill();x.beginPath();x.arc(bs.x+bs.r*.35,bs.y+bs.r*.25,bs.r*.2,0,6.28);x.fill();
     x.fillStyle='rgba(255,255,255,.2)';x.fillRect(bs.x-bs.r,bs.y-bs.r-16,bs.r*2,6);x.fillStyle='#ff8fb8';x.fillRect(bs.x-bs.r,bs.y-bs.r-16,bs.r*2*Math.max(0,bs.hp/bs.max),6);x.restore()}}}
